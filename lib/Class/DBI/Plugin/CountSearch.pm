@@ -1,6 +1,6 @@
 package Class::DBI::Plugin::CountSearch;
 
-our $VERSION = 1.00;
+our $VERSION = 1.01;
 
 use strict;
 use warnings;
@@ -51,9 +51,9 @@ sub import {
 	$caller->set_sql(count_search => <<'');
 		SELECT COUNT(*)
 		FROM __TABLE__
-		WHERE %s
-	
+		%s
 
+	
 	*{"$caller\::count_search"} =      sub { shift->_do_count_search('='    => @_) };
 	*{"$caller\::count_search_like"} = sub { shift->_do_count_search('LIKE' => @_) };
 
@@ -77,6 +77,10 @@ sub import {
 		my $frag = join " AND ",
 			map defined($vals[$_]) ? "$cols[$_] $search_type ?" : "$cols[$_] IS NULL",
 			0 .. $#cols;
+
+		defined($frag) && $frag ne '' and
+			$frag = " WHERE $frag";
+
 		my $sth = $class->sql_count_search($frag);
 		$sth->execute(@vals);
 		my $count = $sth->fetchrow_arrayref->[0];

@@ -88,3 +88,8 @@ while (my ($title, $year) = each %films) {
 	my $count_1994_red = My::Film->count_search('title' => 'Red', 'year' => '1994');
 	is $count_1994_red, 1, "Got 1 1994 film called Red";
 }
+
+{
+	my $total_count = My::Film->count_search();
+	is $total_count, 14, "Got 14 search without terms";
+}
