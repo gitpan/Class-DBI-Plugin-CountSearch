@@ -4,7 +4,7 @@ use Test::More;
 
 BEGIN {
 	eval "use DBD::SQLite";
-	plan $@ ? (skip_all => 'needs DBD::SQLite for testing') : (tests => 6);
+	plan $@ ? (skip_all => 'needs DBD::SQLite for testing') : (tests => 7);
 }
 
 package My::Film;

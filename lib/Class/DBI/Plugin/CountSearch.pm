@@ -1,6 +1,6 @@
 package Class::DBI::Plugin::CountSearch;
 
-our $VERSION = 1.01;
+our $VERSION = 1.02;
 
 use strict;
 use warnings;
@@ -81,11 +81,7 @@ sub import {
 		defined($frag) && $frag ne '' and
 			$frag = " WHERE $frag";
 
-		my $sth = $class->sql_count_search($frag);
-		$sth->execute(@vals);
-		my $count = $sth->fetchrow_arrayref->[0];
-		$sth->finish;
-		return $count;
+		return $class->sql_count_search($frag)->select_val(@vals);
 	};
 	
 }
